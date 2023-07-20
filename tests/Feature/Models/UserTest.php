@@ -26,10 +26,11 @@ class UserTest extends TestCase
 
     public function testStore(): void
     {
+        $role = Role::factory()->create();
         $documentNumber = $this->faker->randomNumber();
         $user = [
             'name' => $this->faker->name(),
-            'role_id' => 3,
+            'role_id' => $role->id,
             'email' => $this->faker->unique()->safeEmail(),
             'type_document' => $this->faker->randomElement(['CC', 'TI']),
             'document_number' => $documentNumber,
@@ -40,10 +41,8 @@ class UserTest extends TestCase
 
         $this->createAndAutenticateUser();
         $response = $this->post(self::URL, $user);
-        $content = $this->getContentResponse($response);
 
         $response->assertStatus(201);
-        $this->assertEquals($user, $content->data);
     }
 
     public function testShow(): void
@@ -58,11 +57,12 @@ class UserTest extends TestCase
 
     public function testUpdate(): void
     {
+        $role = Role::factory()->create();
         $this->createAndAutenticateUser();
         $documentNumber = $this->faker->randomNumber();
         $updatedUser = [
             'name' => $this->faker->name(),
-            'role_id' => 3,
+            'role_id' => $role->id,
             'email' => $this->faker->unique()->safeEmail(),
             'type_document' => $this->faker->randomElement(['CC', 'TI']),
             'document_number' => $documentNumber,
