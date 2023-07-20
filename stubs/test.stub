@@ -8,13 +8,54 @@ use Tests\TestCase;
 
 class {{ class }} extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    const URL = '/api/{{ modelVariable }}s';
 
+    public function testIndex(): void
+    {
+        $this->createAndAutenticateUser();
+        ${{ modelVariable }}s = Role::factory()->count(3)->create();
+        $response = $this->get(self::URL);
+        $content = $this->getContentResponse($response);
         $response->assertStatus(200);
+        $this->assertEquals(count(${{ modelVariable }}s), count($content->data));
+    }
+
+    public function testStore(): void
+    {
+        $this->createAndAutenticateUser();
+        $response = $this->post(self::URL, [
+           // TODO: Put data here
+        ]);
+        $content = $this->getContentResponse($response);
+        $response->assertStatus(201);
+    }
+
+    public function testShow(): void
+    {
+        $this->createAndAutenticateUser();
+        ${{ modelVariable }} = {{ model }}::factory()->create();
+        $response = $this->get(self::URL . '/' . ${{ modelVariable }}->id);
+        $response->assertStatus(200);
+    }
+
+    public function testUpdate(): void
+    {
+        $this->createAndAutenticateUser();
+        ${{ modelVariable }} = {{ model }}::factory()->create();
+        $response = $this->postJson(self::URL . '/' . ${{ modelVariable }}->id, [
+            // TODO: Put data here
+            '_method' => 'PUT'
+        ]);
+        $response->assertStatus(200);
+    }
+
+    public function testDestroy(): void
+    {
+        $this->createAndAutenticateUser();
+        ${{ modelVariable }} = {{ model }}::factory()->create();
+        $response = $this->postJson(self::URL . '/' . ${{ modelVariable }}->id, [
+            '_method' => 'DELETE'
+        ]);
+        $response->assertStatus(204);
     }
 }
