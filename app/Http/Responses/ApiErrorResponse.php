@@ -10,7 +10,7 @@ use Throwable;
 class ApiErrorResponse implements Responsable
 {
     public function __construct(
-        private string $message,
+        private string|array $message,
         private ?Throwable $exception = null,
         private int $code = Response::HTTP_INTERNAL_SERVER_ERROR,
         private array $headers = []
