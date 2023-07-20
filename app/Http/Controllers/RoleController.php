@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiErrorResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Response;
+use Throwable;
 
 class RoleController extends Controller
 {
@@ -22,11 +26,9 @@ class RoleController extends Controller
     {
         try {
             $roles = Role::all();
-            return response()->json([
-                'data' => $roles,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return new ApiSuccessResponse($roles, Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -38,11 +40,9 @@ class RoleController extends Controller
     {
         try {
             $role = Role::create($request->all());
-            return response()->json([
-                'data' => $role,
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return new ApiSuccessResponse($role, Response::HTTP_CREATED);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -52,11 +52,9 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         try {
-            return response()->json([
-                'data' => $role,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return new ApiSuccessResponse($role, Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,11 +65,10 @@ class RoleController extends Controller
     {
         try {
             $role->update($request->all());
-            return response()->json([
-                'data' => $role,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            $role->refresh();
+            return new ApiSuccessResponse($role, Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -82,9 +79,9 @@ class RoleController extends Controller
     {
         try {
             $role->delete();
-            return response()->json([], 204);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return new ApiSuccessResponse([], Response::HTTP_NO_CONTENT);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
