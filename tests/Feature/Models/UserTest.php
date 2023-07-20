@@ -3,6 +3,7 @@
 namespace Tests\Feature\Models;
 
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Str;
 use Tests\TestCase;
 use App\Models\Role;
@@ -19,8 +20,8 @@ class UserTest extends TestCase
         $users = User::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
-        $response->assertStatus(200);
-        $this->assertSameSize($users, $content->data);
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertCount(4, $content->data);
     }
 
     public function testStore(): void

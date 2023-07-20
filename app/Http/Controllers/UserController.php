@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiErrorResponse;
+use App\Http\Responses\ApiSuccessResponse;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Response;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -13,7 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $users = User::all();
+            return new ApiSuccessResponse($users, Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
