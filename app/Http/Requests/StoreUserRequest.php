@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Responses\ApiErrorResponse;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class StoreUserRequest extends FormRequest
 {
@@ -24,5 +28,10 @@ class StoreUserRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    protected function failedValidation(Validator $validator): ApiErrorResponse {
+        $response = new ApiErrorResponse($validator->errors()->toArray(), null, Response::HTTP_UNPROCESSABLE_ENTITY);
+        throw new HttpResponseException($response->toResponse($validator));
     }
 }

@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Responses\ApiErrorResponse;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class StoreRoleRequest extends FormRequest
 {
@@ -22,7 +26,12 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:50', 'unique:roles'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator): ApiErrorResponse {
+        $response = new ApiErrorResponse($validator->errors()->toArray(), null, Response::HTTP_UNPROCESSABLE_ENTITY);
+        throw new HttpResponseException($response->toResponse($validator));
     }
 }
