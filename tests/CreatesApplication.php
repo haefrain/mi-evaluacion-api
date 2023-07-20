@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
@@ -33,5 +34,15 @@ trait CreatesApplication
     {
         Artisan::call('migrate:reset');
         parent::tearDown();
+    }
+
+    public function getContentResponse($response)
+    {
+        return json_decode($response->getContent());
+    }
+
+    public function createAndAutenticateUser() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
     }
 }

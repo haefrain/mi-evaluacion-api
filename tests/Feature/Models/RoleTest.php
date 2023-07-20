@@ -109,14 +109,4 @@ class RoleTest extends TestCase
         ]);
         $response->assertStatus(403);
     }
-
-    private function getContentResponse($response)
-    {
-        return json_decode($response->getContent());
-    }
-
-    private function createAndAutenticateUser() {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-    }
 }

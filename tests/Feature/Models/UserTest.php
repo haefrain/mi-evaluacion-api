@@ -86,14 +86,4 @@ class UserTest extends TestCase
         ]);
         $response->assertStatus(204);
     }
-
-    private function getContentResponse($response)
-    {
-        return json_decode($response->getContent());
-    }
-
-    private function createAndAutenticateUser() {
-        $user = User::factory()->create(['role_id' => 1]);
-        $this->actingAs($user);
-    }
 }
