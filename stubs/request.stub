@@ -2,7 +2,11 @@
 
 namespace {{ namespace }};
 
+use App\Http\Responses\ApiErrorResponse;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class {{ class }} extends FormRequest
 {
@@ -11,7 +15,7 @@ class {{ class }} extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,5 +28,10 @@ class {{ class }} extends FormRequest
         return [
             //
         ];
+    }
+
+    protected function failedValidation(Validator $validator): ApiErrorResponse {
+        $response = new ApiErrorResponse($validator->errors()->toArray(), null, Response::HTTP_UNPROCESSABLE_ENTITY);
+        throw new HttpResponseException($response->toResponse($validator));
     }
 }
