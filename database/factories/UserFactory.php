@@ -20,6 +20,7 @@ class UserFactory extends Factory
         $documentNumber = fake()->randomNumber();
         return [
             'name' => fake()->name(),
+            'role_id' => 3,
             'email' => fake()->unique()->safeEmail(),
             'type_document' => fake()->randomElement(['CC', 'TI']),
             'document_number' => $documentNumber,

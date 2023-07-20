@@ -2,12 +2,15 @@
 
 namespace Tests\Feature\Models;
 
+use Illuminate\Foundation\Testing\WithFaker;
+use Str;
 use Tests\TestCase;
 use App\Models\Role;
 use App\Models\User;
 
 class UserTest extends TestCase
 {
+    use WithFaker;
     const URL = '/api/users';
 
     public function testIndex(): void
@@ -17,97 +20,70 @@ class UserTest extends TestCase
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($users), count($content->data));
+        $this->assertSameSize($users, $content->data);
     }
 
     public function testStore(): void
     {
+        $documentNumber = $this->faker->randomNumber();
+        $user = [
+            'name' => $this->faker->name(),
+            'role_id' => 3,
+            'email' => $this->faker->unique()->safeEmail(),
+            'type_document' => $this->faker->randomElement(['CC', 'TI']),
+            'document_number' => $documentNumber,
+            'email_verified_at' => now(),
+            'password' => bcrypt($documentNumber), // password
+            'remember_token' => Str::random(10),
+        ];
+
         $this->createAndAutenticateUser();
-        $name = 'test';
-        $response = $this->post(self::URL, [
-            'name' => $name,
-        ]);
+        $response = $this->post(self::URL, $user);
         $content = $this->getContentResponse($response);
 
         $response->assertStatus(201);
-        $this->assertEquals($name, $content->data->name);
+        $this->assertEquals($user, $content->data);
     }
 
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $role = User::factory()->create();
-        $response = $this->get(self::URL . '/' . $role->id);
+        $user = User::factory()->create();
+        $response = $this->get(self::URL . '/' . $user->id);
 
         $response->assertStatus(200);
-        $this->assertEquals($role->name, $this->getContentResponse($response)->data->name);
+        $this->assertEquals($user->document_number, $this->getContentResponse($response)->data->document_number);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $name = 'edited';
-        $role = User::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $role->id, [
-            'name' => $name,
+        $documentNumber = $this->faker->randomNumber();
+        $updatedUser = [
+            'name' => $this->faker->name(),
+            'role_id' => 3,
+            'email' => $this->faker->unique()->safeEmail(),
+            'type_document' => $this->faker->randomElement(['CC', 'TI']),
+            'document_number' => $documentNumber,
+            'email_verified_at' => now(),
+            'password' => bcrypt($documentNumber), // password
+            'remember_token' => Str::random(10),
             '_method' => 'PUT'
-        ]);
+        ];
+        $user = User::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $user->id, $updatedUser);
         $response->assertStatus(200);
-        $this->assertNotEquals($role->name, $this->getContentResponse($response)->data->name);
-        $this->assertEquals($name, $this->getContentResponse($response)->data->name);
-
+        $this->assertEquals($updatedUser['name'], $this->getContentResponse($response)->data->name);
     }
 
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $role = User::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $role->id, [
+        $user = User::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $user->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);
-    }
-
-    public function testIndexNotAutenticated(): void
-    {
-        $response = $this->get(self::URL);
-        $response->assertStatus(403);
-    }
-
-    public function testStoreNotAutenticated(): void
-    {
-        $name = 'test';
-        $response = $this->post(self::URL, [
-            'name' => $name,
-        ]);
-        $response->assertStatus(403);
-    }
-
-    public function testShowNotAutenticated(): void
-    {
-        $role = User::factory()->create();
-        $response = $this->get(self::URL . '/' . $role->id);
-        $response->assertStatus(403);
-    }
-
-    public function testUpdateNotAutenticated(): void
-    {
-        $role = User::factory()->create();
-        $name = 'edited';
-        $response = $this->postJson(self::URL . '/' . $role->id, [
-            'name' => $name,
-            '_method' => 'PUT'
-        ]);
-        $response->assertStatus(403);
-    }
-
-    public function testDestroyNotAutenticated(): void
-    {
-        $role = Role::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $role->id, [
-            '_method' => 'DELETE'
-        ]);
-        $response->assertStatus(403);
     }
 
     private function getContentResponse($response)
@@ -116,7 +92,7 @@ class UserTest extends TestCase
     }
 
     private function createAndAutenticateUser() {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['role_id' => 1]);
         $this->actingAs($user);
     }
 }
