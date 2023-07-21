@@ -1,31 +1,33 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
-use App\Models\Group;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Company;
+use App\Models\CorporativeGroup;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class GroupTest extends TestCase
+class CorporativeGroupTest extends TestCase
 {
-    const URL = '/api/groups';
+    use WithFaker;
+    const URL = '/api/corporative-groups';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        $groups = Group::factory()->count(3)->create();
+        $corporativeGroups = CorporativeGroup::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($groups), count($content->data));
+        $this->assertEquals(count($corporativeGroups), count($content->data));
     }
 
     public function testStore(): void
     {
         $this->createAndAutenticateUser();
         $response = $this->post(self::URL, [
-           'name' => 'Group'
+            'company_id' => Company::factory()->create()->id,
+            'name' => $this->faker->name(),
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -34,17 +36,18 @@ class GroupTest extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $group = Group::factory()->create();
-        $response = $this->get(self::URL . '/' . $group->id);
+        $corporativeGroup = CorporativeGroup::factory()->create();
+        $response = $this->get(self::URL . '/' . $corporativeGroup->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $group = Group::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $group->id, [
-            'name' => 'Group Edited',
+        $corporativeGroup = CorporativeGroup::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $corporativeGroup->id, [
+            'company_id' => Company::factory()->create()->id,
+            'name' => $this->faker->name(),
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);
@@ -53,8 +56,8 @@ class GroupTest extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $group = Group::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $group->id, [
+        $corporativeGroup = CorporativeGroup::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $corporativeGroup->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);

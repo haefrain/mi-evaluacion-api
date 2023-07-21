@@ -1,11 +1,9 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
 use App\Models\Option;
 use App\Models\Question;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class OptionTest extends TestCase

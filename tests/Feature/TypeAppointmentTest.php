@@ -1,26 +1,25 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
 use App\Models\Company;
-use App\Models\CorporativeGroup;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\TypeAppointment;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CorporativeGroupTest extends TestCase
+class TypeAppointmentTest extends TestCase
 {
     use WithFaker;
-    const URL = '/api/corporative-groups';
+    const URL = '/api/type-appointments';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        $corporativeGroups = CorporativeGroup::factory()->count(3)->create();
+        $typeAppointments = TypeAppointment::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($corporativeGroups), count($content->data));
+        $this->assertEquals(count($typeAppointments), count($content->data));
     }
 
     public function testStore(): void
@@ -37,16 +36,16 @@ class CorporativeGroupTest extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $corporativeGroup = CorporativeGroup::factory()->create();
-        $response = $this->get(self::URL . '/' . $corporativeGroup->id);
+        $typeAppointment = TypeAppointment::factory()->create();
+        $response = $this->get(self::URL . '/' . $typeAppointment->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $corporativeGroup = CorporativeGroup::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $corporativeGroup->id, [
+        $typeAppointment = TypeAppointment::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $typeAppointment->id, [
             'company_id' => Company::factory()->create()->id,
             'name' => $this->faker->name(),
             '_method' => 'PUT'
@@ -57,8 +56,8 @@ class CorporativeGroupTest extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $corporativeGroup = CorporativeGroup::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $corporativeGroup->id, [
+        $typeAppointment = TypeAppointment::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $typeAppointment->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);

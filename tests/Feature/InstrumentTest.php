@@ -1,35 +1,35 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
 use App\Models\Company;
-use App\Models\Position;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Instrument;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class PositionTest extends TestCase
+class InstrumentTest extends TestCase
 {
     use WithFaker;
 
-    const URL = '/api/positions';
+    const URL = '/api/instruments';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        $positions = Position::factory()->count(3)->create();
+        $instruments = Instrument::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($positions), count($content->data));
+        $this->assertEquals(count($instruments), count($content->data));
     }
 
     public function testStore(): void
     {
         $this->createAndAutenticateUser();
         $response = $this->post(self::URL, [
-            'company_id' => Company::factory()->create()->id,
-            'title' => $this->faker->sentence(),
+           'company_id' => Company::factory()->create()->id,
+           'title' => $this->faker->sentence(),
+           'description' => $this->faker->paragraph(),
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -38,17 +38,18 @@ class PositionTest extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $position = Position::factory()->create();
-        $response = $this->get(self::URL . '/' . $position->id);
+        $instrument = Instrument::factory()->create();
+        $response = $this->get(self::URL . '/' . $instrument->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $position = Position::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $position->id, [
+        $instrument = Instrument::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $instrument->id, [
             'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);
@@ -57,8 +58,8 @@ class PositionTest extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $position = Position::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $position->id, [
+        $instrument = Instrument::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $instrument->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);

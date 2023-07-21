@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Role;
-use App\Models\User;
+use Tests\TestCase;
 
 class RoleTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
 use App\Models\CorporativeGroup;
 use App\Models\Dependency;
@@ -8,7 +8,6 @@ use App\Models\Person;
 use App\Models\Position;
 use App\Models\TypeAppointment;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

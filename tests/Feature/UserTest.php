@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Str;
 use Tests\TestCase;
-use App\Models\Role;
-use App\Models\User;
 
 class UserTest extends TestCase
 {

@@ -1,26 +1,26 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
 use App\Models\Company;
-use App\Models\TypeAppointment;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Position;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TypeAppointmentTest extends TestCase
+class PositionTest extends TestCase
 {
     use WithFaker;
-    const URL = '/api/type-appointments';
+
+    const URL = '/api/positions';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        $typeAppointments = TypeAppointment::factory()->count(3)->create();
+        $positions = Position::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($typeAppointments), count($content->data));
+        $this->assertEquals(count($positions), count($content->data));
     }
 
     public function testStore(): void
@@ -28,7 +28,7 @@ class TypeAppointmentTest extends TestCase
         $this->createAndAutenticateUser();
         $response = $this->post(self::URL, [
             'company_id' => Company::factory()->create()->id,
-            'name' => $this->faker->name(),
+            'title' => $this->faker->sentence(),
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -37,18 +37,17 @@ class TypeAppointmentTest extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $typeAppointment = TypeAppointment::factory()->create();
-        $response = $this->get(self::URL . '/' . $typeAppointment->id);
+        $position = Position::factory()->create();
+        $response = $this->get(self::URL . '/' . $position->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $typeAppointment = TypeAppointment::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $typeAppointment->id, [
-            'company_id' => Company::factory()->create()->id,
-            'name' => $this->faker->name(),
+        $position = Position::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $position->id, [
+            'title' => $this->faker->sentence(),
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);
@@ -57,8 +56,8 @@ class TypeAppointmentTest extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $typeAppointment = TypeAppointment::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $typeAppointment->id, [
+        $position = Position::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $position->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);

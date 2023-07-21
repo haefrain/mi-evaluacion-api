@@ -1,29 +1,32 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature;
 
-use App\Models\Company;
+use App\Models\Group;
+use App\Models\Variable;
 use Tests\TestCase;
 
-class CompanyTest extends TestCase
+class VariableTest extends TestCase
 {
-    const URL = '/api/companies';
+    const URL = '/api/variables';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        $companies = Company::factory()->count(3)->create();
+        $variables = Variable::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count($companies), count($content->data));
+        $this->assertEquals(count($variables), count($content->data));
     }
 
     public function testStore(): void
     {
         $this->createAndAutenticateUser();
+        $group = Group::factory()->create();
         $response = $this->post(self::URL, [
-            'name' => 'Empresa 1',
+            'group_id' => $group->id,
+            'name' => 'Variable',
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -32,17 +35,17 @@ class CompanyTest extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        $company = Company::factory()->create();
-        $response = $this->get(self::URL . '/' . $company->id);
+        $variable = Variable::factory()->create();
+        $response = $this->get(self::URL . '/' . $variable->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        $company = Company::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $company->id, [
-            'name' => 'Empresa 2',
+        $variable = Variable::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $variable->id, [
+            'name' => 'Variable Edited',
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);
@@ -51,8 +54,8 @@ class CompanyTest extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        $company = Company::factory()->create();
-        $response = $this->postJson(self::URL . '/' . $company->id, [
+        $variable = Variable::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $variable->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);
