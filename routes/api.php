@@ -12,6 +12,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InstrumentController;
+use App\Http\Controllers\PositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,4 @@ Route::resource('options', OptionController::class);
 Route::resource('answers', AnswerController::class);
 Route::resource('companies', CompanyController::class);
 Route::resource('instruments', InstrumentController::class);
+Route::resource('positions', PositionController::class);

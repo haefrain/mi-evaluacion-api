@@ -1,30 +1,35 @@
 <?php
 
-namespace {{ namespace }};
+namespace Tests\Feature\Models;
 
+use App\Models\Company;
+use App\Models\Position;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class {{ class }} extends TestCase
+class PositionTest extends TestCase
 {
-    const URL = '/api/{{ modelVariable }}s';
+    use WithFaker;
+
+    const URL = '/api/positions';
 
     public function testIndex(): void
     {
         $this->createAndAutenticateUser();
-        ${{ modelVariable }}s = {{ model }}::factory()->count(3)->create();
+        $positions = Position::factory()->count(3)->create();
         $response = $this->get(self::URL);
         $content = $this->getContentResponse($response);
         $response->assertStatus(200);
-        $this->assertEquals(count(${{ modelVariable }}s), count($content->data));
+        $this->assertEquals(count($positions), count($content->data));
     }
 
     public function testStore(): void
     {
         $this->createAndAutenticateUser();
         $response = $this->post(self::URL, [
-           // TODO: Put data here
+            'company_id' => Company::factory()->create()->id,
+            'title' => $this->faker->sentence(),
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -33,17 +38,17 @@ class {{ class }} extends TestCase
     public function testShow(): void
     {
         $this->createAndAutenticateUser();
-        ${{ modelVariable }} = {{ model }}::factory()->create();
-        $response = $this->get(self::URL . '/' . ${{ modelVariable }}->id);
+        $position = Position::factory()->create();
+        $response = $this->get(self::URL . '/' . $position->id);
         $response->assertStatus(200);
     }
 
     public function testUpdate(): void
     {
         $this->createAndAutenticateUser();
-        ${{ modelVariable }} = {{ model }}::factory()->create();
-        $response = $this->postJson(self::URL . '/' . ${{ modelVariable }}->id, [
-            // TODO: Put data here
+        $position = Position::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $position->id, [
+            'title' => $this->faker->sentence(),
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);
@@ -52,8 +57,8 @@ class {{ class }} extends TestCase
     public function testDestroy(): void
     {
         $this->createAndAutenticateUser();
-        ${{ modelVariable }} = {{ model }}::factory()->create();
-        $response = $this->postJson(self::URL . '/' . ${{ modelVariable }}->id, [
+        $position = Position::factory()->create();
+        $response = $this->postJson(self::URL . '/' . $position->id, [
             '_method' => 'DELETE'
         ]);
         $response->assertStatus(204);
