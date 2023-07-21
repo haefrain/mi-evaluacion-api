@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\Option;
 use App\Models\Question;
-use App\Models\SubVariable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Option>
  */
-class QuestionFactory extends Factory
+class OptionFactory extends Factory
 {
-    protected $model = Question::class;
+    protected $model = Option::class;
     /**
      * Define the model's default state.
      *
@@ -19,12 +19,12 @@ class QuestionFactory extends Factory
      */
     public function definition(): array
     {
-        $subVariable = SubVariable::factory()->create();
+        $question = Question::factory()->create();
         return [
-            'sub_variable_id' => $subVariable->id,
+            'question_id' => $question->id,
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
-            'sort' => fake()->randomDigit(),
+            'value' => fake()->randomDigit(),
         ];
     }
 }
