@@ -35,4 +35,9 @@ class Company extends Model
     {
         return $this->hasMany(Dependency::class);
     }
+
+    public function corporativeGroups()
+    {
+        return $this->hasMany(CorporativeGroup::class);
+    }
 }
