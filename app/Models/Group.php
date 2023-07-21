@@ -21,6 +21,11 @@ class Group extends Model
 
 
     // Relations
+    public function instrument()
+    {
+        return $this->belongsTo(Instrument::class);
+    }
+
     public function variables()
     {
         return $this->hasMany(Variable::class);
