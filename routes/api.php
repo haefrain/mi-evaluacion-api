@@ -10,6 +10,7 @@ use App\Http\Controllers\SubVariableController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,4 @@ Route::resource('variables', VariableController::class);
 Route::resource('sub-variables', SubVariableController::class);
 Route::resource('questions', QuestionController::class);
 Route::resource('options', OptionController::class);
-Route::resource('answers', AnswerController::class);
+Route::resource('companies', CompanyController::class);
