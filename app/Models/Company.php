@@ -25,4 +25,14 @@ class Company extends Model
     {
         return $this->hasMany(Instrument::class);
     }
+
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
+
+    public function dependencies()
+    {
+        return $this->hasMany(Dependency::class);
+    }
 }
