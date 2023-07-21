@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Company extends Model
+class Instrument extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'companies';
+    protected $table = 'instruments';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['company_id', 'title', 'description'];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -21,8 +21,8 @@ class Company extends Model
 
 
     // Relations
-    public function instruments()
+    public function company()
     {
-        return $this->hasMany(Instrument::class);
+        return $this->belongsTo(Company::class);
     }
 }
