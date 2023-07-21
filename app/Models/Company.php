@@ -40,4 +40,9 @@ class Company extends Model
     {
         return $this->hasMany(CorporativeGroup::class);
     }
+
+    public function typeAppointments()
+    {
+        return $this->hasMany(TypeAppointment::class);
+    }
 }
