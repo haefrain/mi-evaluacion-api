@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('role_id');
+            $table->foreignId('person_id')->nullable();
             $table->string('type_document', 50);
             $table->string('document_number', 50);
             $table->string('name');

@@ -16,6 +16,7 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\DependencyController;
 use App\Http\Controllers\CorporativeGroupController;
 use App\Http\Controllers\TypeAppointmentController;
+use App\Http\Controllers\PersonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +45,6 @@ Route::resource('companies', CompanyController::class);
 Route::resource('instruments', InstrumentController::class);
 Route::resource('dependencies', DependencyController::class);
 Route::resource('positions', PositionController::class);
+Route::resource('corporative-groups', CorporativeGroupController::class);
 Route::resource('type-appointments', TypeAppointmentController::class);
+Route::resource('people', PersonController::class);
