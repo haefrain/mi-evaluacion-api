@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Option extends Model
+class Answer extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'options';
+    protected $table = 'answers';
 
-    protected $fillable = ['question_id', 'title', 'description', 'value'];
+    protected $fillable = ['question_id', 'user_id', 'option_id'];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -26,8 +26,13 @@ class Option extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function answers()
+    public function option()
     {
-        return $this->hasMany(Answer::class);
+        return $this->belongsTo(Option::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
