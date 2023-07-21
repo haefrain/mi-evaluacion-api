@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Variable extends Model
+class SubVariable extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'variables';
+    protected $table = 'sub_variables';
 
-    protected $fillable = ['group_id', 'name'];
+    protected $fillable = ['variable_id', 'name'];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -21,13 +21,8 @@ class Variable extends Model
 
 
     // Relations
-    public function group()
+    public function variable()
     {
-        return $this->belongsTo(Group::class);
-    }
-
-    public function subVariables()
-    {
-        return $this->hasMany(SubVariable::class);
+        return $this->belongsTo(Variable::class);
     }
 }
