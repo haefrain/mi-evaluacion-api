@@ -40,6 +40,9 @@ class PersonTest extends TestCase
             'last_name' => $this->faker->name(),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'with_people_charge' => $this->faker->boolean(),
+            'age' => fake()->randomElement(array_keys(Person::AGE)),
+            'seniority' => fake()->randomElement(array_keys(Person::SENIORITY)),
+            'education_level' => fake()->randomElement(array_keys(Person::EDUCATION_LEVEL)),
         ]);
         $content = $this->getContentResponse($response);
         $response->assertStatus(201);
@@ -67,6 +70,9 @@ class PersonTest extends TestCase
             'last_name' => $this->faker->name(),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'with_people_charge' => $this->faker->boolean(),
+            'age' => fake()->randomElement(array_keys(Person::AGE)),
+            'seniority' => fake()->randomElement(array_keys(Person::SENIORITY)),
+            'education_level' => fake()->randomElement(array_keys(Person::EDUCATION_LEVEL)),
             '_method' => 'PUT'
         ]);
         $response->assertStatus(200);

@@ -33,6 +33,9 @@ class PersonFactory extends Factory
             'last_name' => fake()->name(),
             'gender' => fake()->randomElement(['male', 'female']),
             'with_people_charge' => fake()->boolean(),
+            'age' => fake()->randomElement(array_keys(Person::AGE)),
+            'seniority' => fake()->randomElement(array_keys(Person::SENIORITY)),
+            'education_level' => fake()->randomElement(array_keys(Person::EDUCATION_LEVEL)),
         ];
     }
 }
