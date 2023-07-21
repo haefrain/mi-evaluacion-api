@@ -4,10 +4,12 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use App\Models\Group;
+use App\Models\Question;
 use App\Models\SubVariable;
 use App\Models\User;
 use App\Models\Variable;
 use App\Policies\GroupPolicy;
+use App\Policies\QuestionPolicy;
 use App\Policies\SubVariablePolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VariablePolicy;
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Group::class => GroupPolicy::class,
         Variable::class => VariablePolicy::class,
         SubVariable::class => SubVariablePolicy::class,
+        Question::class => QuestionPolicy::class,
     ];
 
     /**
