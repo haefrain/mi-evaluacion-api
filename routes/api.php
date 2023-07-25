@@ -35,20 +35,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 Route::post('login', [AuthenticationController::class, 'login']);
-Route::post('logout', [AuthenticationController::class, 'logout']);
+Route::middleware('auth:sanctum')->post('logout', [AuthenticationController::class, 'logout']);
 
-Route::resource('roles', RoleController::class);
-Route::resource('users', UserController::class);
-Route::resource('groups', GroupController::class);
-Route::resource('variables', VariableController::class);
-Route::resource('sub-variables', SubVariableController::class);
-Route::resource('questions', QuestionController::class);
-Route::resource('options', OptionController::class);
-Route::resource('answers', AnswerController::class);
-Route::resource('companies', CompanyController::class);
-Route::resource('instruments', InstrumentController::class);
-Route::resource('dependencies', DependencyController::class);
-Route::resource('positions', PositionController::class);
-Route::resource('corporative-groups', CorporativeGroupController::class);
-Route::resource('type-appointments', TypeAppointmentController::class);
-Route::resource('people', PersonController::class);
+Route::middleware('auth:sanctum')->resource('roles', RoleController::class);
+Route::middleware('auth:sanctum')->resource('users', UserController::class);
+Route::middleware('auth:sanctum')->resource('groups', GroupController::class);
+Route::middleware('auth:sanctum')->resource('variables', VariableController::class);
+Route::middleware('auth:sanctum')->resource('sub-variables', SubVariableController::class);
+Route::middleware('auth:sanctum')->resource('questions', QuestionController::class);
+Route::middleware('auth:sanctum')->resource('options', OptionController::class);
+Route::middleware('auth:sanctum')->resource('answers', AnswerController::class);
+Route::middleware('auth:sanctum')->resource('companies', CompanyController::class);
+Route::middleware('auth:sanctum')->resource('instruments', InstrumentController::class);
+Route::middleware('auth:sanctum')->resource('dependencies', DependencyController::class);
+Route::middleware('auth:sanctum')->resource('positions', PositionController::class);
+Route::middleware('auth:sanctum')->resource('corporative-groups', CorporativeGroupController::class);
+Route::middleware('auth:sanctum')->resource('type-appointments', TypeAppointmentController::class);
+Route::middleware('auth:sanctum')->resource('people', PersonController::class);

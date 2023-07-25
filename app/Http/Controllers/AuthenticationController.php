@@ -19,7 +19,7 @@ class AuthenticationController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
                 $token = $user->createToken('SPA Token')->plainTextToken;
-                return new ApiSuccessResponse(['token' => $token], Response::HTTP_OK);
+                return new ApiSuccessResponse(['token' => $token, 'user' => $user], Response::HTTP_OK);
             } else {
                 throw new \Exception('Usuario o contraseña incorrecto');
             }
@@ -43,7 +43,7 @@ class AuthenticationController extends Controller
     public function logout(Request $request)
     {
         try {
-            $request->user()->tokens()->delete();
+            $request->user()->currentAccessToken()->delete();
             return new ApiSuccessResponse(null, Response::HTTP_NO_CONTENT);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);

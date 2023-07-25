@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function instruments()
+    {
+        return $this->belongsToMany(Instrument::class);
+    }
 }

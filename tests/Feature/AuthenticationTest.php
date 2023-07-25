@@ -37,7 +37,7 @@ class AuthenticationTest extends TestCase
 
         $response = $this->postJson('/api/login', $credentials);
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertIsString($this->getContentResponse($response)->data->token);
+        $this->assertIsString($this->getContentResponse($response)->data);
 
     }
 
@@ -68,7 +68,7 @@ class AuthenticationTest extends TestCase
         $response = $this->postJson('/api/login', $credentials);
         $content = $this->getContentResponse($response);
 
-        $responseLogout = $this->postJson('/api/logout', [], ['Authorization' => 'Bearer ' . $content->data->token]);
+        $responseLogout = $this->postJson('/api/logout', [], ['Authorization' => 'Bearer ' . $content->data]);
         $responseLogout->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }

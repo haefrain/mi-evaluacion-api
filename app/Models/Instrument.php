@@ -30,4 +30,10 @@ class Instrument extends Model
     {
         return $this->hasMany(Group::class);
     }
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
