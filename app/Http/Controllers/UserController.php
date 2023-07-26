@@ -13,6 +13,8 @@ use Throwable;
 class UserController extends Controller
 {
 
+    protected $with = ['person'];
+
     public function __construct()
     {
         $this->authorizeResource(User::class);

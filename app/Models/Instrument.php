@@ -17,6 +17,7 @@ class Instrument extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
 
+
     // Scopes
 
 
@@ -30,7 +31,6 @@ class Instrument extends Model
     {
         return $this->hasMany(Group::class);
     }
-
 
     public function users()
     {

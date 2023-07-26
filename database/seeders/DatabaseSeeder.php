@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CorporativeGroup;
+use App\Models\Variable;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            RoleSeeder::class,
+            CompanySeeder::class,
+            InstrumentSeeder::class,
+            CorporativeGroupSeeder::class,
+            DependencySeeder::class,
+            PositionSeeder::class,
+            TypeAppointmentSeeder::class,
+            GroupSeeder::class,
+            VariableSeeder::class,
+            SubVariableSeeder::class,
+            QuestionSeeder::class,
+            UserSeeder::class,
+            UserInstrumentSeeder::class,
+        ]);
     }
 }

@@ -63,17 +63,17 @@ class Person extends Model
     // Appends
     public function getAgeStringAttribute()
     {
-        return self::AGE[$this->age];
+        return $this->age ? self::AGE[$this->age] : null;
     }
 
     public function getSeniorityStringAttribute()
     {
-        return self::SENIORITY[$this->seniority];
+        return $this->seniority ? self::SENIORITY[$this->seniority] : null;
     }
 
     public function getEducationLevelStringAttribute()
     {
-        return self::EDUCATION_LEVEL[$this->education_level];
+        return $this->education_level ? self::EDUCATION_LEVEL[$this->education_level] : null;
     }
 
     // Scopes

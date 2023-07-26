@@ -5,6 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
+use App\Models\Company;
+use App\Models\CorporativeGroup;
+use App\Models\Dependency;
+use App\Models\Group;
+use App\Models\Instrument;
+use App\Models\Position;
+use App\Models\Question;
+use App\Models\TypeAppointment;
+use App\Models\Variable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +28,16 @@ class AuthenticationController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
                 $token = $user->createToken('SPA Token')->plainTextToken;
-                return new ApiSuccessResponse(['token' => $token, 'user' => $user], Response::HTTP_OK);
+
+                $dataList = [
+                    'questions' => Question::all(),
+                    'company' => Company::first(),
+                    'positions' => Position::all(),
+                    'dependencies' => Dependency::all(),
+                    'typeAppointments' => TypeAppointment::all(),
+                    'corporativeGroups' => CorporativeGroup::all(),
+                ];
+                return new ApiSuccessResponse(['token' => $token, 'user' => $user, 'data_list' => $dataList], Response::HTTP_OK);
             } else {
                 throw new \Exception('Usuario o contraseña incorrecto');
             }

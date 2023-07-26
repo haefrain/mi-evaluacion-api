@@ -12,7 +12,7 @@ class Group extends Model
 
     protected $table = 'groups';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['instrument_id', 'name'];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('instrument_id');
             $table->string('name', 50)->unique();
             $table->timestamps();
             $table->softDeletes();

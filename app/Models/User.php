@@ -47,6 +47,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $with = ['person', 'role'];
+
     public function getAuthIdentifierName() {
         return 'document_number';
     }
@@ -64,5 +66,10 @@ class User extends Authenticatable
     public function instruments()
     {
         return $this->belongsToMany(Instrument::class);
+    }
+
+    public function person()
+    {
+        return $this->hasOne(Person::class);
     }
 }
