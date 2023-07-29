@@ -8,5 +8,6 @@ class UserInstrument extends Pivot
 {
     protected $table = 'users_instruments';
 
-    protected $fillable = ['user_id', 'instrument_id'];
+    protected $fillable = ['user_id', 'instrument_id', 'page'];
+
 }

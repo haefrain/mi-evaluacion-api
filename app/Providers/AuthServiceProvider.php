@@ -9,12 +9,14 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\SubVariable;
 use App\Models\User;
+use App\Models\UserInstrument;
 use App\Models\Variable;
 use App\Policies\AnswerPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\OptionPolicy;
 use App\Policies\QuestionPolicy;
 use App\Policies\SubVariablePolicy;
+use App\Policies\UserInstrumentPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VariablePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -31,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
+        UserInstrument::class => UserInstrumentPolicy::class,
         Group::class => GroupPolicy::class,
         Variable::class => VariablePolicy::class,
         SubVariable::class => SubVariablePolicy::class,

@@ -26,7 +26,7 @@ class UpdatePersonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'last_name' => 'required|max:50',
         ];
     }
 

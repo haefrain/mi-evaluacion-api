@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('instrument_id')->constrained();
+            $table->integer('page')->default(0)->comment('0: Demographic; 1-N: Questions');
             $table->timestamps();
         });
     }

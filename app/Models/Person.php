@@ -52,6 +52,10 @@ class Person extends Model
         'education_level',
     ];
 
+    protected $casts = [
+        'with_people_charge' => 'boolean',
+    ];
+
     protected $appends = [
         'ageString',
         'seniorityString',

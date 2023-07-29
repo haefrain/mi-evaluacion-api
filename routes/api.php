@@ -18,6 +18,8 @@ use App\Http\Controllers\DependencyController;
 use App\Http\Controllers\CorporativeGroupController;
 use App\Http\Controllers\TypeAppointmentController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\UserInstrumentController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +54,6 @@ Route::middleware('auth:sanctum')->resource('positions', PositionController::cla
 Route::middleware('auth:sanctum')->resource('corporative-groups', CorporativeGroupController::class);
 Route::middleware('auth:sanctum')->resource('type-appointments', TypeAppointmentController::class);
 Route::middleware('auth:sanctum')->resource('people', PersonController::class);
+Route::middleware('auth:sanctum')->resource('user-instruments', UserInstrumentController::class);
+Route::middleware('auth:sanctum')->resource('dashboard', DashboardController::class)->only(['index']);
+Route::middleware('auth:sanctum')->post('export/participants', [DashboardController::class, 'exportExcelParticipants']);

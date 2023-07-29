@@ -173,6 +173,10 @@ class UserSeeder extends Seeder
             141 => ['CEDULA' => '1023941406', 'NOMBRES' => 'LUIS HERNAN', 'APELLIDOS' => 'ZAMORA LONDOÑO', 'CORREO' => 'luis.zamora@archivogeneral.gov.co', 'CARGO' => 'TÉCNICO OPERATIVO', 'DEPENDECIAS' => 'SECRETARIA GENERAL', 'GRUPO' => 'GRUPO DE ARCHIVO Y GESTION DOCUMENTAL', 'PERSONAS' => '', 'SEXO' => 'M', 'NOMBRAMIENTO' => 'P'],
             142 => ['CEDULA' => '64747718', 'NOMBRES' => 'YARLENIS', 'APELLIDOS' => 'ZAPATA BOHORQUEZ', 'CORREO' => 'yarlenis.zapata@archivogeneral.gov.co', 'CARGO' => 'PROFESIONAL UNIVERSITARIO', 'DEPENDECIAS' => 'SUBDIRECCION DE INSPECCION VIGILANCIA Y CONTROL', 'GRUPO' => 'SIN GRUPO', 'PERSONAS' => '', 'SEXO' => 'F', 'NOMBRAMIENTO' => 'P'],
             143 => ['CEDULA' => '24166743', 'NOMBRES' => 'MARIA ELVIRA', 'APELLIDOS' => 'ZEA CABRERA', 'CORREO' => 'maria.zea@archivogeneral.gov.co', 'CARGO' => 'PROFESIONAL ESPECIALIZADO', 'DEPENDECIAS' => 'SUBDIRECCION DE GESTION DEL PATRIMONIO', 'GRUPO' => 'GRUPO DE INVESTIGACION Y DIFUSION', 'PERSONAS' => 'X', 'SEXO' => 'F', 'NOMBRAMIENTO' => 'C-E'],
+            144 => ['CEDULA' => '1110561900', 'NOMBRES' => 'USUARIO PRUEBA 01', 'APELLIDOS' => 'TEST 01', 'CORREO' => 'usuario.prueba.01@yopmail.com', 'CARGO' => 'PROFESIONAL ESPECIALIZADO', 'DEPENDECIAS' => 'SUBDIRECCION DE GESTION DEL PATRIMONIO', 'GRUPO' => 'GRUPO DE INVESTIGACION Y DIFUSION', 'PERSONAS' => 'X', 'SEXO' => 'F', 'NOMBRAMIENTO' => 'C-E'],
+            145 => ['CEDULA' => '1110561901', 'NOMBRES' => 'USUARIO PRUEBA 02', 'APELLIDOS' => 'TEST 02', 'CORREO' => 'usuario.prueba.02@yopmail.com', 'CARGO' => 'PROFESIONAL ESPECIALIZADO', 'DEPENDECIAS' => 'SUBDIRECCION DE GESTION DEL PATRIMONIO', 'GRUPO' => 'GRUPO DE INVESTIGACION Y DIFUSION', 'PERSONAS' => '', 'SEXO' => 'M', 'NOMBRAMIENTO' => 'C-E'],
+            146 => ['CEDULA' => '1110561902', 'NOMBRES' => 'USUARIO PRUEBA 03', 'APELLIDOS' => 'TEST 03', 'CORREO' => 'usuario.prueba.03@yopmail.com', 'CARGO' => 'PROFESIONAL ESPECIALIZADO', 'DEPENDECIAS' => 'SUBDIRECCION DE GESTION DEL PATRIMONIO', 'GRUPO' => 'GRUPO DE INVESTIGACION Y DIFUSION', 'PERSONAS' => 'X', 'SEXO' => 'F', 'NOMBRAMIENTO' => 'C-E'],
+            147 => ['CEDULA' => '1110561903', 'NOMBRES' => 'USUARIO PRUEBA 04', 'APELLIDOS' => 'TEST 04', 'CORREO' => 'usuario.prueba.04@yopmail.com', 'CARGO' => 'PROFESIONAL ESPECIALIZADO', 'DEPENDECIAS' => 'SUBDIRECCION DE GESTION DEL PATRIMONIO', 'GRUPO' => 'GRUPO DE INVESTIGACION Y DIFUSION', 'PERSONAS' => '', 'SEXO' => 'M', 'NOMBRAMIENTO' => 'C-E'],
         ];
 
         $types_appointments = [
@@ -188,10 +192,10 @@ class UserSeeder extends Seeder
             $userMapped = [
                 'type_document' => 'cc',
                 'document_number' => $user['CEDULA'],
-                'role_id' => Role::where('name', '=', 'user')->first()->id,
+                'role_id' => Role::where('name', '=', 'User')->first()->id,
                 'name' => $user['NOMBRES'] . ' ' . $user['APELLIDOS'],
-                'email' => $user['CORREO'],
-                'password' => bcrypt($user['CEDULA']),
+                'email' => trim($user['CORREO']),
+                'password' => bcrypt(trim($user['CEDULA'])),
             ];
 
             $newUser = User::create($userMapped);

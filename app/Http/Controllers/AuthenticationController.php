@@ -30,16 +30,16 @@ class AuthenticationController extends Controller
                 $token = $user->createToken('SPA Token')->plainTextToken;
 
                 $dataList = [
-                    'questions' => Question::all(),
                     'company' => Company::first(),
                     'positions' => Position::all(),
                     'dependencies' => Dependency::all(),
                     'typeAppointments' => TypeAppointment::all(),
                     'corporativeGroups' => CorporativeGroup::all(),
+                    'quantityQuestions' => ceil(Question::all()->count() / 3),
                 ];
                 return new ApiSuccessResponse(['token' => $token, 'user' => $user, 'data_list' => $dataList], Response::HTTP_OK);
             } else {
-                throw new \Exception('Usuario o contraseña incorrecto');
+                return new ApiErrorResponse('Usuario o contraseña incorrectos.', null, Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -61,8 +61,7 @@ class AuthenticationController extends Controller
     public function logout(Request $request)
     {
         try {
-            $request->user()->currentAccessToken()->delete();
-            return new ApiSuccessResponse(null, Response::HTTP_NO_CONTENT);
+            return new ApiSuccessResponse($request->user()->tokens()->delete(), Response::HTTP_NO_CONTENT);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

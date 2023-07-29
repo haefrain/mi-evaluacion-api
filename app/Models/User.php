@@ -47,10 +47,37 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $with = ['person', 'role'];
+    protected $with = ['person', 'role', 'user_instruments'];
+
+    protected $appends = ['status'];
 
     public function getAuthIdentifierName() {
         return 'document_number';
+    }
+
+
+    public function getStatusAttribute()
+    {
+        $userInstrument = $this->user_instruments()->first();
+        if (is_null($userInstrument)) {
+            return null;
+        }
+        $status = null;
+        if ($userInstrument->page <= 0) {
+            $status = 'Pendiente';
+        }
+
+        $totalPages = ceil(Question::all()->count() / 3);
+
+        if ($userInstrument->page > 0 && $userInstrument->page < $totalPages) {
+            $status = 'En curso';
+        }
+
+        if ($userInstrument->page >= $totalPages) {
+            $status = 'Finalizado';
+        }
+
+        return $status;
     }
 
     // Relation
@@ -66,6 +93,11 @@ class User extends Authenticatable
     public function instruments()
     {
         return $this->belongsToMany(Instrument::class);
+    }
+
+    public function user_instruments()
+    {
+        return $this->hasMany(UserInstrument::class);
     }
 
     public function person()

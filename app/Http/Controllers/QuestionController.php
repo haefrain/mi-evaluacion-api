@@ -23,7 +23,7 @@ class QuestionController extends Controller
     public function index()
     {
         try {
-            $questions = Question::all();
+            $questions = Question::paginate(3);
             return new ApiSuccessResponse($questions, Response::HTTP_OK);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);

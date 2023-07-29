@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiErrorResponse;
 use App\Http\Responses\ApiSuccessResponse;
-use App\Models\Answer;
-use App\Http\Requests\StoreAnswerRequest;
-use App\Http\Requests\UpdateAnswerRequest;
+use App\Models\UserInstrument;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Throwable;
 
-class AnswerController extends Controller
+class UserInstrumentController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Answer::class);
+        $this->authorizeResource(UserInstrument::class);
     }
 
     /**
@@ -23,8 +22,8 @@ class AnswerController extends Controller
     public function index()
     {
         try {
-            $answers = Answer::all();
-            return new ApiSuccessResponse($answers, Response::HTTP_OK);
+            $userInstruments = UserInstrument::all();
+            return new ApiSuccessResponse($userInstruments, Response::HTTP_OK);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -33,16 +32,11 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAnswerRequest $request)
+    public function store(Request $request)
     {
-        $answer = $request->all();
-        $answerVerify = $request->only('question_id', 'user_id');
         try {
-            $answer = Answer::updateOrCreate(
-                $answerVerify,
-                $answer
-            );
-            return new ApiSuccessResponse($answer, Response::HTTP_CREATED);
+            $userInstrument = UserInstrument::create($request->all());
+            return new ApiSuccessResponse($userInstrument, Response::HTTP_CREATED);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -51,10 +45,10 @@ class AnswerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Answer $answer)
+    public function show(UserInstrument $userInstrument)
     {
         try {
-            return new ApiSuccessResponse($answer, Response::HTTP_OK);
+            return new ApiSuccessResponse($userInstrument, Response::HTTP_OK);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -63,11 +57,11 @@ class AnswerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAnswerRequest $request, Answer $answer)
+    public function update(Request $request, UserInstrument $userInstrument)
     {
         try {
-            $answer->update($request->all());
-            return new ApiSuccessResponse($answer, Response::HTTP_OK);
+            $userInstrument->update($request->all());
+            return new ApiSuccessResponse($userInstrument, Response::HTTP_OK);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -76,11 +70,11 @@ class AnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Answer $answer)
+    public function destroy(UserInstrument $userInstrument)
     {
         try {
-            $answer->delete();
-            return new ApiSuccessResponse($answer, Response::HTTP_NO_CONTENT);
+            $userInstrument->delete();
+            return new ApiSuccessResponse($userInstrument, Response::HTTP_NO_CONTENT);
         } catch (Throwable $e) {
             return new ApiErrorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
