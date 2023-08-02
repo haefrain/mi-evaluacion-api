@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->boolean('with_people_charge')->default(false);
-            $table->enum('gender', ['male', 'female', 'NS/NR']);
+            $table->enum('gender', ['male', 'female', 'other', 'NS/NR']);
             $table->enum('age', ['0-25', '26-35', '36-45', '46-55', '56-999'])->comment('Es el rango de edad en el que esta la persona')->nullable();
             $table->enum('seniority', ['0-2', '3-5', '6-10', '11-15', '15-999'])->comment('Es la cantidad de años de experiencia que tiene la persona')->nullable();
             $table->enum('education_level', ['NoBachiller', 'Bachiller', 'Tecnico', 'Universitario', 'Profesional', 'Post-grado'])->nullable();
